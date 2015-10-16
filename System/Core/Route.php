@@ -23,12 +23,14 @@ abstract class Route{
 	public  function dispatch() {
 		$ctrlFile = $this->getCtrlFile();
 		$ctrlClass = $this->getCtrlClass();
-		$this->whiteList();
+
+		$this->whiteList($control);
+		
 		$control = new $ctrlClass();
+
+	
 		$action  = self::getActionName();
-		if (!method_exists($control, $action)) {
-			exit("Action: does not have method `$action`");
-		}
+		
 		$control->$action();
 		
 	}
@@ -38,42 +40,45 @@ abstract class Route{
 		$urlQuery = parse_url( $path , PHP_URL_QUERY );
 		$urlPath  = trim(parse_url( $path , PHP_URL_PATH ),'/');
 		$pathArr  = explode( '/' , $urlPath );
-		$module   = MODULE.ucfirst($pathArr[0]).'/Controller';
-
+		$module   = APP.ucfirst($pathArr[0]).'/Controller';
 		if( file_exists( $module )) {
 			self::$module = ucfirst($pathArr[0]);
 			if($pathArr[1] ) 
 				self::$control = ucfirst($pathArr[1]);
 			if($pathArr[2])
 				self::$action  = $pathArr[2];
+			$params = array_slice( $pathArr , 3 );
 
 		}else{
 			if($pathArr[0])
 				self::$control = ucfirst($pathArr[0]);
 			if($pathArr[1])
 				self::$action  = $pathArr[1];
+			$params = array_slice($pathArr,2);
 		}
-		if($urlQuery){
-			$params = strtr($urlQuery,array('&'=>'/','='=>'/'));
-		}else{
-			
-			$params = substr($urlPath,stripos($urlPath,self::$action )+strlen(self::$action) );
+		if($urlQuery) {
+		
+			$params = $this->dealParams($urlQuery);
 		}
-		$this->dealParams($params);
+		self::$params = $params;
 
 	}
 	
-	public function dealParams($params){
-		if(!$params) return ;
-		$params = explode( '/' , trim($params,'/'));
-		if( count($params) % 2 != 0 ){
+	public function dealParams($urlQuery){
+		if(!$urlQuery) return ;
+		$params    = array();
+		$tmpParams = strtr($urlQuery,array('&'=>'/','='=>'/'));
+		$tmpParams = explode( '/' , trim($tmpParams,'/'));
+		if( count($tmpParams) % 2 != 0 ){
 			trigger_error('参数不正确',E_USER_ERROR);
 		}
-		foreach($params as $key => $val) {
+		foreach($tmpParams as $key => $val) {
 			if($key%2==0){
-				self::$params[$val] = $params[$key+1];
+				$params[$val] = $tmpParams[$key+1];
 			}
 		}
+		unset($tmpParams);
+		return $params;
 	}
 
 	public  function getActionName(){
@@ -96,38 +101,31 @@ abstract class Route{
 		return $this->getModulePath().'Controller/'.self::$control.'.php';
 	}
 
-	// public function setAutoLoadPath(){
-	// 	$ctrlPath = $this->getModulePath().'Controller/';
-	// 	\petite\Autoload::setPath($ctrlPath);
-	// }
 
 	public function getModulePath(){
-		return self::$module=='Index'?APP:MODULE;
+		return self::$module=='Index'?APP:APP.self::$module;
 	}
 
-	//路由处理
-    public  function whiteList() {
-
+	//路由是否合法
+    public  function whiteList($controlObj) {
+    	$msg = array();
         $modules = $this->getModulePath();
+        $control = $this->getCtrlFile();
+        $action  = $this->getActionName();
+        if(!file_exists($control)){
+        	$msg[] = '控制器'.$control.'不存在';
+        }
 
-        // Y::dump($modules);
-
-        // $m = $request->module;
-        // $c = $request->controller;
-        // $a = $request->action;
-        // if ( array_key_exists( $m , $modules ) ) {
-        //     if ( array_key_exists( $c , $modules[$m] ) ) {
-        //         if ( in_array( $a , $modules[$m][$c] ) ) {
-        //             //self::dump($request,$modules,$modules[$m]);
-        //             return true;
-        //         }
-        //     }
-        // }
-        // if ( NODEBUG ) {
-        //     self::reRoute( 'Index' , 'Error' , 'whiteList' );
-        // } else {
-        //     throw new \Exception("请检查控制器是否写入配置文件{$m}-{$c}-{$a}");
-        // }
+        if(!method_exists($controlObj,$action)) {
+        	$msg[] = '方法'.$action.'不存在';
+        }
+        if( $msg ) {
+        	if( DEBUG ){
+        		// throw new \Exception($msg[0]);
+        		echo 1;exit;
+        	}
+        	$this->reRoute('Index','Error','whiteList');
+        }
 
     }
 

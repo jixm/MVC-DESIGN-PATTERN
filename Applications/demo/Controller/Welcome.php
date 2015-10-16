@@ -11,6 +11,10 @@ class WelcomeController extends System\Core\Control{
 	public function sayAction(){
 		// echo ROOT.'SITE/'.SITE;
 		// Debug::enable();
+		$name = $_GET['name'];
+		$action = $_GET['action'];
+		$this->assign('name',$name);
+		$this->assign('action',$action);
 		$this->assign('a','test');
 		// Debug::disable();
 		// $this->display();

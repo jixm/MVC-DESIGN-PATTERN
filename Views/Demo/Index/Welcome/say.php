@@ -1,5 +1,5 @@
 
 <div>
-<h1> <?php echo $a;?></h1>
+<h1> <?php echo $name.$action?></h1>
 
 </div>
