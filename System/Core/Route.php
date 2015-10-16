@@ -21,16 +21,10 @@ abstract class Route{
 
 	//路由分发
 	public  function dispatch() {
-		$ctrlFile = $this->getCtrlFile();
+		$ctrlFile  = $this->getCtrlFile();
 		$ctrlClass = $this->getCtrlClass();
-
-		$this->whiteList($control);
-		
-		$control = new $ctrlClass();
-
-	
-		$action  = self::getActionName();
-		
+		$control   = $this->whiteList();
+		$action    = self::getActionName();
 		$control->$action();
 		
 	}
@@ -107,25 +101,28 @@ abstract class Route{
 	}
 
 	//路由是否合法
-    public  function whiteList($controlObj) {
+    public  function whiteList() {
     	$msg = array();
         $modules = $this->getModulePath();
         $control = $this->getCtrlFile();
         $action  = $this->getActionName();
         if(!file_exists($control)){
         	$msg[] = '控制器'.$control.'不存在';
+        }else{
+        	$ctrlClass = $this->getCtrlClass();
+        	$control = new $ctrlClass();
         }
 
-        if(!method_exists($controlObj,$action)) {
+        if(!method_exists($control,$action)) {
         	$msg[] = '方法'.$action.'不存在';
         }
         if( $msg ) {
         	if( DEBUG ){
-        		// throw new \Exception($msg[0]);
-        		echo 1;exit;
+        		throw new \Exception($msg[0]);
         	}
         	$this->reRoute('Index','Error','whiteList');
         }
+        return $control;
 
     }
 
