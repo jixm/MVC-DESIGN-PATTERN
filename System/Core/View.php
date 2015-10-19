@@ -21,7 +21,7 @@ class View{
 
 	}
 
-	public function getTemplateFile($template) {
+	public function getTemplateFile($template = '') {
 		$file = Y::getControl();
 		if($template) {
 			 $file .= $template;

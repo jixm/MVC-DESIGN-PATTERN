@@ -50,11 +50,12 @@ class Autoload{
 			}
 
 		}
-
+		// echo '<pre>';
+		// var_dump($classFile);
+		// echo '</pre>';
 		if(!file_exists($classFile)){
 			throw new \Exception('** class '.$name.' not found **');
 		}
-
 		
 		self::$_class[$name] = $classFile;	
 

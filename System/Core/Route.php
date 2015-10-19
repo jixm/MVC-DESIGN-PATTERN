@@ -30,6 +30,8 @@ abstract class Route{
 	}
 
 	public  function parseRoute( $path ) {
+		$pathParams  = array();
+		$queryParams = array();
 		if( !$path ) return ;
 		$urlQuery = parse_url( $path , PHP_URL_QUERY );
 		$urlPath  = trim(parse_url( $path , PHP_URL_PATH ),'/');
@@ -41,37 +43,41 @@ abstract class Route{
 				self::$control = ucfirst($pathArr[1]);
 			if($pathArr[2])
 				self::$action  = $pathArr[2];
-			$params = array_slice( $pathArr , 3 );
+			$pathParams = array_slice( $pathArr , 3 );
 
 		}else{
 			if($pathArr[0])
 				self::$control = ucfirst($pathArr[0]);
 			if($pathArr[1])
 				self::$action  = $pathArr[1];
-			$params = array_slice($pathArr,2);
+			$pathParams = array_slice($pathArr,2);
 		}
 		if($urlQuery) {
-		
-			$params = $this->dealParams($urlQuery);
+			$queryParams = $this->combineQuery($urlQuery);
 		}
-		self::$params = $params;
+		$params = array_merge($pathParams,$queryParams);
+		$this->combineParams($params);
 
 	}
 	
-	public function dealParams($urlQuery){
-		if(!$urlQuery) return ;
-		$params    = array();
-		$tmpParams = strtr($urlQuery,array('&'=>'/','='=>'/'));
-		$tmpParams = explode( '/' , trim($tmpParams,'/'));
-		if( count($tmpParams) % 2 != 0 ){
+
+	public function combineParams($params) {
+		if( count($params) % 2 != 0 ){
 			trigger_error('参数不正确',E_USER_ERROR);
 		}
-		foreach($tmpParams as $key => $val) {
+		$newParams = array();
+		foreach($params as $key => $val) {
 			if($key%2==0){
-				$params[$val] = $tmpParams[$key+1];
+				self::$params[$val] = $params[$key+1];
 			}
 		}
-		unset($tmpParams);
+		unset($params);
+
+	}
+	public function combineQuery($query){
+		if(!$query) return array();
+		$params = strtr($query,array('&'=>'/','='=>'/'));
+		$params = explode( '/' , trim($params,'/'));
 		return $params;
 	}
 

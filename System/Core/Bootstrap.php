@@ -14,8 +14,6 @@ class Bootstrap{
 
 	public $pattern = '/^init/';
 
-
-
 	public function __construct() {
 		$methods = get_class_methods( $this );
 		foreach( $methods as $method ){

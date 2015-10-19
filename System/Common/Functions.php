@@ -62,8 +62,17 @@ class Functions{
 
     }
 
-    public static function getParams(){
-       return Route::$params;
+    public static function getParams($name=null){
+      $params = Route::$params;
+      if( $name ) {
+
+        if(array_key_exists($name,$params)) {
+            return $params[$name];
+        }
+        return null;
+      }
+
+      return $params;
     }
 
     public static function disableView(){
@@ -74,9 +83,6 @@ class Functions{
         Control::enableView();
     }
 
-    // public static function request(){
-
-    // }
 
     public static function set($name,$value){
         Config::set($name,$value);

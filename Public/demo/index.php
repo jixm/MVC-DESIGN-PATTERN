@@ -7,7 +7,7 @@ define('SITE','Demo');
 
 require_once  '../../Autoload.php';
 
-require_once  '../../_init.php';
+require_once  '../../setting.php';
 
 new System\Core\Bootstrap();
 

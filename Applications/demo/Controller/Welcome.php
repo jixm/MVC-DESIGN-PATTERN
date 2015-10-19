@@ -1,6 +1,7 @@
 <?php
 use System\Common\Functions as Y;
-use xhprof\Debug;
+use System\Core\Request as R;
+use Db\Pdo;
 class WelcomeController extends System\Core\Control{
 
 	public function init(){
@@ -11,13 +12,20 @@ class WelcomeController extends System\Core\Control{
 	public function sayAction(){
 		// echo ROOT.'SITE/'.SITE;
 		// Debug::enable();
-		$name = $_GET['name'];
-		$action = $_GET['action'];
+
+		$db = DB::test();
+		// Pdo->
+		// Y::dump($db);exit;
+		$data = $db->createSql('select * from article')->query()->fetch();
+		Y::dump($data);
+		$name = R::get('name');
+		$action   = R::get('action');
+		// Y::dump($action);exit;
 		$this->assign('name',$name);
 		$this->assign('action',$action);
 		$this->assign('a','test');
 		// Debug::disable();
-		// $this->display();
+		$this->display();
 	}
 
 	public function walkAction(){

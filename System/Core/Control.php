@@ -23,7 +23,6 @@ class Control{
 
 	protected function display($template=''){
 		$this->isShow();
-		$this->_autoshow = true;
 		echo $this->_view->fetch($template);
 	}
 
@@ -55,10 +54,11 @@ class Control{
 			exit ;
 		}
 	}
-	public function __destruct() {
-		$this->isShow();
-		if(!$this->_autoshow) {
-			$this->_view->fetch();
-		}
-	}
+
+	/*
+		@todo
+		redirect
+		reRoute
+	 */
+	
 }
