@@ -1,5 +1,3 @@
-#READEME
-@[local]
 
 **一个简单的MVC框架,代码逻辑很简单,主要是回顾下MVC的思想逻辑.简单说一下需要注意的点**
 
@@ -8,19 +6,17 @@
 
 ###目录结构
 >Public
-		>>project_name
-			>>>index.php  入口文件
-			 >>>.htaccess   重写规则
+>>project_name
+>>>index.php  入口文件
+>>>.htaccess   重写规则
 			 
 >Application
 >>project_name
 >>>Controller
 >>>Model
 >>>Module 
-
 >Config
 >>project_name.inc.php  对应项目的配置文件
-
 >Library  本地类库,自动加载
 >System  核心类库
 >Views    视图
