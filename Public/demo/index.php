@@ -2,7 +2,7 @@
 use System\App;
 
 define('PUBLIC_PATH',__DIR__);
-
+echo PUBLIC_PATH;
 define('SITE','Demo');
 
 require_once  '../../Autoload.php';

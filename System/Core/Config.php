@@ -9,8 +9,8 @@ class Config{
 	public static $db = array();
 
 	public static function init() {
-		$db = include CONFIG.'Database.php';
-		self::$config = include CONFIG.SITE.'.php';
+		$db = include CONFIG.'Database.inc.php';
+		self::$config = include CONFIG.SITE.'.inc.php';
 		foreach( $db as $name => $val ) {
 			self::$config[$name] = $val;
 		}

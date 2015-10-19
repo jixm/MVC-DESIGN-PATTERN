@@ -17,6 +17,8 @@ class WelcomeController extends System\Core\Control{
 		// // Pdo->
 		// // Y::dump($db);exit;
 		$data = $db->createSql('select * from article')->query()->fetch();
+		$this->aa();
+		// WelcomeModel::getNotice();
 		// $name = R::get('name');
 		// $action   = R::get('action');
 		// // Y::dump($action);exit;
@@ -25,6 +27,11 @@ class WelcomeController extends System\Core\Control{
 		// $this->assign('a','test');
 		// Debug::disable();
 		// $this->display();
+	}
+
+
+	public function aa(){
+		echo __METHOD__;
 	}
 
 	public function walkAction(){
