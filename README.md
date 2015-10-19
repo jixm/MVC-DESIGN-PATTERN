@@ -12,14 +12,23 @@
 			 
 >Application
 >>project_name
+
 >>>Controller
+
 >>>Model
->>>Module 
+
+>>>Module
+
 >Config
+
 >>project_name.inc.php  对应项目的配置文件
+
 >Library  本地类库,自动加载
+
 >System  核心类库
+
 >Views    视图
+
 
 ###入口文件
 
