@@ -10,9 +10,12 @@ use System\Core\Route\cliRoute;
 use System\Core\Route\webRoute;
 use Whoops\Handler\PrettyPageHandler;
 use Whoops\Run;
+use xhprof\Debug;
 class Bootstrap{
 
 	public $pattern = '/^init/';
+
+
 
 	public function __construct() {
 		$methods = get_class_methods( $this );
@@ -61,6 +64,9 @@ class Bootstrap{
 		} else { 
 			ini_set( 'display_errors' , 0 );
             error_reporting( 0 );
+		}
+		if(isset($_GET['debug']) && $_GET['debug'] == 'safe') {
+		 	Debug::enable();
 		}
 	}
 

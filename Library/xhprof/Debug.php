@@ -69,8 +69,9 @@ class Debug {
 
     $xhprof_runs_impl = new \XHProfRuns_Default( self::logpath() );
       // single run call graph image generation
-    xhprof_render_image( $xhprof_runs_impl, $run, $type,$threshold, $func, $source, $critical );
+    // xhprof_render_image( $xhprof_runs_impl, $run, $type,$threshold, $func, $source, $critical );
 
+      xhprof_render_image( $xhprof_runs_impl, $run, $type,$threshold, $func, $source, $critical );
 
 
   }

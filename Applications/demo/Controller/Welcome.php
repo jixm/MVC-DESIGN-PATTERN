@@ -14,18 +14,17 @@ class WelcomeController extends System\Core\Control{
 		// Debug::enable();
 
 		$db = DB::test();
-		// Pdo->
-		// Y::dump($db);exit;
+		// // Pdo->
+		// // Y::dump($db);exit;
 		$data = $db->createSql('select * from article')->query()->fetch();
-		Y::dump($data);
-		$name = R::get('name');
-		$action   = R::get('action');
-		// Y::dump($action);exit;
-		$this->assign('name',$name);
-		$this->assign('action',$action);
-		$this->assign('a','test');
+		// $name = R::get('name');
+		// $action   = R::get('action');
+		// // Y::dump($action);exit;
+		// $this->assign('name',$name);
+		// $this->assign('action',$action);
+		// $this->assign('a','test');
 		// Debug::disable();
-		$this->display();
+		// $this->display();
 	}
 
 	public function walkAction(){

@@ -3,6 +3,7 @@ namespace System\Core;
 use System\Core\View;
 use System\Manager;
 use System\Common\Functions as Y;
+use xhprof\Debug;
 class Control{
 
 	protected $_view = NULL;
@@ -50,10 +51,19 @@ class Control{
 	}
 
 	public function isShow() {
-		if( !Y::get( 'tpShow' ) ) {
+		//xhprof性能分析图片头部不能有输出,所以要屏蔽模版输出
+		if( !Y::get( 'tpShow' ) || Y::getParams('debug') == 'safe') {
 			exit ;
 		}
 	}
+
+	public function __destruct() {
+		if(Y::getParams('debug') && Y::getParams('debug')=='safe') {
+			//开启xhprof
+			Debug::disable();
+		}
+	}
+
 
 	/*
 		@todo
