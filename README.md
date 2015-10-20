@@ -94,7 +94,8 @@ Y::get($name)  //$name为空返回整个配置数组,不为空返回对应key的
 - base_uri/key1/val1/key2/val2(这种形式参数获取必须用下面将要说到的形式R::get('key1'),$_GET是获取不到的)
 - base_uri?key1=val1&key2/val2($_POST或者R::post('key1'))
 - base_uri/key1/val1?key2/val2 这种形式key1,key2值也可以获取到,但没人会这么传参吧
->**参数的获取最好还是采用R::get(),R::post形式,这种方式会对你定义的参数类型进行验证,严谨些好**
+
+>参数的获取最好还是采用R::get(),R::post形式,这种方式会对你定义的参数类型进行验证,严谨些好
 
 ###控制器
 ####GET,POST参数获取
@@ -120,9 +121,10 @@ public function testAction() {
 	//echo $this->render();
 	$this->display('edit');
 }
-
 ```
+
 同时在LIB目录Rule.php中要对参数进行定义(过滤验证)
+```
 <?php
 use Respect\Validation\Validator as v;
 class Rule {
@@ -139,6 +141,7 @@ class Rule {
     }
 
 }
+
 具体使用方法可以参考这个类库的说明[Respect](https://github.com/Respect/Validation)
 ####Model调用
 Model定义和普通类没有区别,类名+Model
@@ -202,7 +205,7 @@ class UserModel {
 >Views
 >>project_name
 >>>Index(默认module)
->>>>控制器
+>>>>控制器(folder)
 
 ###运行
 
