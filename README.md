@@ -141,7 +141,7 @@ class Rule {
     }
 
 }
-
+```
 具体使用方法可以参考这个类库的说明[Respect](https://github.com/Respect/Validation)
 ####Model调用
 Model定义和普通类没有区别,类名+Model
