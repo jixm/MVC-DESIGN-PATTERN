@@ -31,7 +31,6 @@ class WelcomeController extends System\Core\Control{
 
 
 	public function aa(){
-		echo __METHOD__;
 	}
 
 	public function walkAction(){
