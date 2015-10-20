@@ -207,8 +207,10 @@ class UserModel {
 >>project_name
 >>>Index(默认module)
 >>>>控制器(folder)
+
 VIEW/Demo/Index/Welcome/
-```php
+
+```
 <?php
 use System\Common\Functions as Y;
 $this->display(VIEW.'Index/Public/Header.php',array('nav'=>'this is nav'));//公共头
