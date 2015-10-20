@@ -1,6 +1,7 @@
 <?php
 namespace System\Core;
 use System\Core\View;
+use System\Core\Route\webRoute;
 use System\Manager;
 use System\Common\Functions as Y;
 use xhprof\Debug;
@@ -8,7 +9,8 @@ class Control{
 
 	protected $_view = NULL;
 
-	protected $_autoshow = false;
+	protected $_vars = array();
+
 
 	public function __construct(){
 		$this->_view = new View();
@@ -22,22 +24,62 @@ class Control{
 		$this->_view->path = $path.$module.'/';
 	}
 
-	protected function display($template=''){
+	protected function display($template='',$assigns = array()){
 		$this->isShow();
-		echo $this->_view->fetch($template);
+		if($assigns){
+			$this->_vars = $assigns;
+		}
+		$this->fetch($template);
 	}
 
 	
-	protected function render($template){
-		return $this->_view->fetch($template);
+	protected function render( $template = '' , $assigns = array()){
+		if($assigns){
+			$this->_vars = $assigns;
+		}
+		$this->fetch($template,false);
+	}
+
+	public function fetch($template,$out = true) {
+		$file = $this->_view->fetch($template);
+		extract($this->_vars);
+        ob_start();
+        include $file;
+        $content = ob_get_contents();
+        ob_end_clean();
+        if($out === true) {
+        	echo $content;
+        }else{
+        	return $content;
+        }
 	}
 
 	protected function assign($name,$value){
-		$this->_view->vars[$name] = $value;
+		$this->_vars[$name] = $value;
 	}
 	
-	protected function redirect(){
-		
+	
+	/**
+	 * 跳转
+	 * @author jixm 
+	 * @date   2015-10-20
+	 * @param  string     $control 控制器
+	 * @param  string     $action  方法
+	 * @param  array      $params  参数
+	 * @return [type]              
+	 */
+	protected function redirect($control='',$action='',$params=array(),$return=false){
+		if($action) {
+			$uri = ($control?$control.'/':Y::getControl()).$action;
+		}else{
+			$uri = ($control?$control.'/':Y::getControl()).'Index';
+		}
+		if($return===true) return $uri;
+		$location = Y::getHost().$uri;
+		if($params){
+			$location.='?'.http_build_query($params);
+		}
+		header("Location: $location");
 	}
 
 	public static function enableView(){

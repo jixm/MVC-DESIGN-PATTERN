@@ -16,5 +16,14 @@ class Rule {
         $validator = v::numeric();
         return $validator;
     }
+    public static function get_id(){
+        $validator = v::numeric();
+        return $validator;
+    }
+
+    public static function post_id(){
+        $validator = v::numeric();
+        return $validator;
+    }
 
 }

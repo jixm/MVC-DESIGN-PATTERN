@@ -107,6 +107,9 @@ class Functions{
         return config::has( $name );
     }
 
+    public static function getHost() {
+        return 'http://'.$_SERVER['HTTP_HOST'].'/';
+    }
     
 
 }

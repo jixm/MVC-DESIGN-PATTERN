@@ -13,8 +13,7 @@ class View{
 	public function fetch( $template = ''){
 		$this->file = $this->getTemplateFile($template);
         if(file_exists($this->file)) {
-        	extract($this->vars);
-        	include $this->file;
+        	return $this->file;
         }else{
         	trigger_error('加载 ' . $this->file . ' 模板不存在');
         }
@@ -24,7 +23,10 @@ class View{
 	public function getTemplateFile($template = '') {
 		$file = Y::getControl();
 		if($template) {
-			 $file .= $template;
+			if(strpos($template,'Views')!=false) {
+				return $template;
+			}
+			$file .= $template;
 		}else{
 			$file  .= Y::getAction();
 		}

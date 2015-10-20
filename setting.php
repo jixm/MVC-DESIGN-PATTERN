@@ -9,7 +9,7 @@ define( 'ROOT' , __DIR__ .'/');
 define( 'APP' , ROOT.'Applications/'.SITE.'/' );
 define( 'C' , APP.'Controller/' );
 // define( 'MODULE' , APP.'Module/' );
-define( 'VIEW' , ROOT.'views/'.SITE.'/' );
+define( 'VIEW' , ROOT.'Views/'.SITE.'/' );
 define( 'LIB' , ROOT.'Library/' );
 define( 'CONFIG' , ROOT.'config/');
 define( 'MODEL' , APP.'model/' );

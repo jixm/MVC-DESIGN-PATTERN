@@ -5,29 +5,20 @@ use Db\Pdo;
 class WelcomeController extends System\Core\Control{
 
 	public function init(){
-		Y::enableView();
+		// Y::enableView();
 		$this->setViewPath(VIEW);
 	}
 
 	public function sayAction(){
-		// echo ROOT.'SITE/'.SITE;
-		// Debug::enable();
-		$page = R::get('page',1);
-		Y::dump($page);
 		$db = DB::test();
-		// // Pdo->
-		// // Y::dump($db);exit;
 		$data = $db->createSql('select * from article')->query()->fetch();
-		$this->aa();
 		// WelcomeModel::getNotice();
-		// $name = R::get('name');
-		// $action   = R::get('action');
-		// // Y::dump($action);exit;
-		// $this->assign('name',$name);
-		// $this->assign('action',$action);
-		// $this->assign('a','test');
-		// Debug::disable();
-		// $this->display();
+		$name = R::get('name','name');
+		$action   = R::get('action','action');
+		$this->assign('name',$name);
+		$this->assign('action',$action);
+		$this->display();
+		// $this->render();
 	}
 
 

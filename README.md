@@ -53,7 +53,7 @@
 
 ###入口文件
 
-```
+```php
 define('PUBLIC_PATH',__DIR__);      //当前项目入口路径
 
 define('SITE','Demo');              //定义项目名,必须
@@ -66,7 +66,7 @@ new System\Core\Bootstrap();
 
 ```
 ###重写规则
-```
+```bash
 server {
   listen ****;
   server_name  domain.com;
@@ -86,7 +86,7 @@ server {
 
 >以上两个数组都会整合到统一静态变量形式存放,如下
 
-```
+```php
 Y::get($name)  //$name为空返回整个配置数组,不为空返回对应key的值
 ```
 ###URI
@@ -99,14 +99,15 @@ Y::get($name)  //$name为空返回整个配置数组,不为空返回对应key的
 
 ###控制器
 ####GET,POST参数获取
-```
+```php
 <?php
 use System\Common\Functions as Y;
 use System\Core\Request as R;
 
 public function init() {
 	//所有方法之前执行
-	Y::enableView();//
+	Y::enableView();//打开模板输出
+	//Y::disableView();关闭模板输出
 	$this->setViewPath(VIEW);//设置模版路径
 }
 public function testAction() {
@@ -124,7 +125,7 @@ public function testAction() {
 ```
 
 同时在LIB目录Rule.php中要对参数进行定义(过滤验证)
-```
+```php
 <?php
 use Respect\Validation\Validator as v;
 class Rule {
@@ -145,7 +146,7 @@ class Rule {
 具体使用方法可以参考这个类库的说明[Respect](https://github.com/Respect/Validation)
 ####Model调用
 Model定义和普通类没有区别,类名+Model
-```
+```php
 <?php
 class UserModel {
 	public static function getUser() {
@@ -158,7 +159,7 @@ class UserModel {
 ```
 ####数据库连接
 1.首先在Config/Database.inc.php中定义mysql连接配置,格式 '类型(pdo|mysqli|mysql等)'+'实例名'
-```
+```php
 <?php
 return 
 array(
@@ -176,7 +177,7 @@ array(
 );
 ```
 2.数据库连接,操作
-```
+```php
 <?php
 use \DB;
 class UserModel {
@@ -206,6 +207,21 @@ class UserModel {
 >>project_name
 >>>Index(默认module)
 >>>>控制器(folder)
+VIEW/Demo/Index/Welcome/
+```php
+<?php
+use System\Common\Functions as Y;
+$this->display(VIEW.'Index/Public/Header.php',array('nav'=>'this is nav'));//公共头
+
+?>
+<h1>i m content : <?php echo $name.$action?></h1>
+
+<?php
+
+$this->display(VIEW.'Index/Public/Footer.php');//包含公共尾
+
+?>
+```
 
 ###运行
 
