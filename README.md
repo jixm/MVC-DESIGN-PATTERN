@@ -9,13 +9,15 @@
 
 [配置文件](#配置文件)
 
+[URI](#URI)
+
 [控制器](#控制器)
    - [GET,POST参数获取](#GET,POST参数获取)
 
    - [Model调用](#Model调用)
 
    - [数据库连接](#数据库连接)
-   
+
 
 [视图文件](#视图文件)
 
@@ -87,13 +89,120 @@ server {
 ```
 Y::get($name)  //$name为空返回整个配置数组,不为空返回对应key的值
 ```
+###URI
+支持两种url格式
+- base_uri/key1/val1/key2/val2(这种形式参数获取必须用下面将要说到的形式R::get('key1'),$_GET是获取不到的)
+- base_uri?key1=val1&key2/val2($_POST或者R::post('key1'))
+- base_uri/key1/val1?key2/val2 这种形式key1,key2值也可以获取到,但没人会这么传参吧
+>**参数的获取最好还是采用R::get(),R::post形式,这种方式会对你定义的参数类型进行验证,严谨些好**
 
 ###控制器
 ####GET,POST参数获取
+```
+<?php
+use System\Common\Functions as Y;
+use System\Core\Request as R;
+
+public function init() {
+	//所有方法之前执行
+	Y::enableView();//
+	$this->setViewPath(VIEW);//设置模版路径
+}
+public function testAction() {
+	
+	$name = R::get('name','jim'); //name为$_GET参数,如果没有获取到默认'jim'
+
+	$id   = R::post('page',1);   //获取post
+
+	$this->assign('name',$name);
+	$this->assign('id',$id);
+	$this->display();//默认当前项目/控制器/方法名 .php文件
+	//echo $this->render();
+	$this->display('edit');
+}
+
+```
+同时在LIB目录Rule.php中要对参数进行定义(过滤验证)
+<?php
+use Respect\Validation\Validator as v;
+class Rule {
+		
+	//get参数
+	public static function get_name(){
+        $validator = v::stringType();
+        return $validator;
+    }
+    //post来的参数
+    public static function post_id(){
+        $validator = v::numeric();
+        return $validator;
+    }
+
+}
+具体使用方法可以参考这个类库的说明[Respect](https://github.com/Respect/Validation)
 ####Model调用
+Model定义和普通类没有区别,类名+Model
+```
+<?php
+class UserModel {
+	public static function getUser() {
+		/*
+			some code...
+		 */
+	}
+}
+
+```
 ####数据库连接
+1.首先在Config/Database.inc.php中定义mysql连接配置,格式 '类型(pdo|mysqli|mysql等)'+'实例名'
+```
+<?php
+return 
+array(
+	//这是一个通过pdo连接数据库,实例名为test的一个连接的配置,系统会根据所选的类型实例对应的数据库连接类,目前只有pdo
+	'pdo_test' => array(
+			'host' => '127.0.0.1' ,
+            'port' => 3306 ,
+            'user' => 'root' ,
+            'password' => '' ,
+            'database' => 'test' ,
+            'persistent' => 0 ,
+            'charset' => 'utf8'
+		),
+
+);
+```
+2.数据库连接,操作
+```
+<?php
+use \DB;
+class UserModel {
+	
+	public static function getUserList() {
+
+		//$db = DB::user('mysqli'); 通过mysqli连接数据库,如果为空默认已PDO方式,配置文件中要定义一个 mysqli_user的配置数组
+		$db   = DB::user();
+		$sql  = 'SELECT * from user where type=:type';  //pdo预处理
+		$data = $db->createSql($sql)->query(array(':type'=>'hot'))->fetchAll();
+		/*
+			或者
+			$reader = $db->createSql($sql)->query(array(':type'=>'hot'));
+			while($tmpData = $reader->fetch()){
+				$data[] = $tmpData; 
+			}			
+		 */ 
+	}
+	
+}
+
+```
 
 ###视图文件
+视图结构
+>Views
+>>project_name
+>>>Index(默认module)
+>>>>控制器
 
 ###运行
 

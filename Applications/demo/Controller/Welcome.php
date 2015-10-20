@@ -12,7 +12,8 @@ class WelcomeController extends System\Core\Control{
 	public function sayAction(){
 		// echo ROOT.'SITE/'.SITE;
 		// Debug::enable();
-
+		$page = R::get('page',1);
+		Y::dump($page);
 		$db = DB::test();
 		// // Pdo->
 		// // Y::dump($db);exit;

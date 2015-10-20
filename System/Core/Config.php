@@ -23,6 +23,7 @@ class Config{
 				return self::$config[$name];
 			}
 			throw new \Exception('配置'.$name.'不存在');
+			// return null;
 		}
 		return self::$config; 
 	}	

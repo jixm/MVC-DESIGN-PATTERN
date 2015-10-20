@@ -13,7 +13,6 @@ class Request {
                 $value =  $params[$name];
             }
         } 
-
         if (!self::validate('get_'.$name,$value) || is_null($value)){
             $value = $default;
         }

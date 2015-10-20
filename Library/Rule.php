@@ -11,4 +11,10 @@ class Rule {
         $validator = v::numeric();
         return $validator;
     }
+
+    public static function get_page(){
+        $validator = v::numeric();
+        return $validator;
+    }
+
 }
