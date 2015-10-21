@@ -10,14 +10,21 @@ class WelcomeController extends System\Core\Control{
 	}
 
 	public function sayAction(){
-		$db = DB::test();
-		$data = $db->createSql('select * from article')->query()->fetch();
+		$string = "博";
+		for ($i = 0; $i < strlen($string); $i++) {
+		    echo dechex(ord($string[$i]));
+		}
+
+
+
+		// $db = DB::test();
+		// $data = $db->createSql('select * from article')->query()->fetch();
 		// WelcomeModel::getNotice();
-		$name = R::get('name','name');
-		$action   = R::get('action','action');
-		$this->assign('name',$name);
-		$this->assign('action',$action);
-		$this->display();
+		// $name = R::get('name','name');
+		// $action   = R::get('action','action');
+		// $this->assign('name',$name);
+		// $this->assign('action',$action);
+		// $this->display();
 		// $this->render();
 	}
 

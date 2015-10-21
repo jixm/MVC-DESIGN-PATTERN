@@ -123,10 +123,13 @@ abstract class Route{
         	$msg[] = '方法'.$action.'不存在';
         }
         if( $msg ) {
-        	if( DEBUG ){
-        		throw new \Exception($msg[0]);
-        	}
-        	$this->reRoute('Index','Error','whiteList');
+        	// if( DEBUG ){
+        	// 	throw new \Exception($msg[0]);
+        	// }
+        	$err = new \UserController();
+        	$err->LoginAction();
+        	exit;
+        	// $this->reRoute('Index','Error','whiteList');
         }
         return $control;
 
