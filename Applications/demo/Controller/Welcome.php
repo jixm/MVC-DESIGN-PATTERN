@@ -10,6 +10,7 @@ class WelcomeController extends System\Core\Control{
 	}
 
 	public function sayAction(){
+		//版本2
 		$string = "博";
 		for ($i = 0; $i < strlen($string); $i++) {
 		    echo dechex(ord($string[$i]));
