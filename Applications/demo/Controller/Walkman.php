@@ -29,4 +29,23 @@ class WalkmanController extends System\Core\Control{
 	public function onWorkerStart($worker){
 		Y::dump("************************** worker start ****************************");
 	}
+
+	public function onClose(){
+		Y::dump("***************************on Close****************************");
+	}
+
+	//缓冲区写满时触发
+	public function onBufferFull(){
+		Y::dump("***************************on bufferfull****************************");
+	}
+
+	//例如在onBufferFull时停止向对端继续send数据，在onBufferDrain恢复写入数据。
+	public function onBufferDrain(){
+		Y::dump("***************************on BufferDrain****************************");
+	}
+
+	// /客户端的连接上发生错误时触发。
+	public function onError(){
+		Y::dump("***************************onError****************************");
+	}
 }
