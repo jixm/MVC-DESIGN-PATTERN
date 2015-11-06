@@ -1,29 +1,43 @@
 
 **一个简单的MVC框架,代码逻辑很简单,主要是回顾下MVC的思想逻辑.简单说一下需要注意的点** 
 
-[目录结构](#目录结构)
+###Workerman
+集成了开源socket开发框架Workerman
+```php
+//命令行启动服务,项目入口执行 php index.php request_uri='walkman/start' start|restart|status
+//example Controller/Walkman.php
+<?php
+use Workerman\Worker;
+use System\Common\Functions as Y;
+use System\Core\Request as R;
+class WalkmanController extends System\Core\Control{
 
-[入口文件](#入口文件)
+	public function startAction(){
+		$worker = new Worker('tcp://0.0.0.0:1234');
+		$worker->count = 2;
+		$worker->onMessage = array($this,'onMessage');
+		$worker->onConnect = array($this,'onConnect');
+		$worker->onWorkerStart = array($this,'onWorkerStart');
+		$worker->runAll();
+	}
 
-[重写规则](#重写规则)
+	public function onMessage($connection,$data){
+			Y::dump($data);
+			/*   
+				业务逻辑
 
-[配置文件](#配置文件)
+			*/
+	}
 
-[URI](#URI)
+	public function onConnect($connection){
+		Y::dump("客户端连接时调用");
+	}
 
-[控制器](#控制器)
-   - [GET,POST参数获取](#GET,POST参数获取)
-
-   - [Model调用](#Model调用)
-
-   - [数据库连接](#数据库连接)
-
-
-[视图文件](#视图文件)
-
-[运行](#运行)
-
-[Tips](#Tips)
+	public function onWorkerStart($worker){
+		Y::dump("服务启动时调用");
+	}
+}
+```
 ###目录结构
 >Public
 >>project_name
