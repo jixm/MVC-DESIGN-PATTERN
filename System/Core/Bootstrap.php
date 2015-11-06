@@ -42,7 +42,7 @@ class Bootstrap{
 	public function initDeny() {
 		$hostDeny = explode( ',' , config::get( 'host_deny' ) );
 		$clientIp = Y::getClientIp();
-		if( in_array( $clientIp , $hostDeny ) ) {
+		if( !Y::isCli() &&in_array( $clientIp , $hostDeny ) ) {
 			header( 'HTTP/1.0 403 Forbidden' );
 			die( 'No Permission' );
 		}
@@ -77,6 +77,7 @@ class Bootstrap{
 	public function initRoute() {
 		$isCli = Y::isCli();
 		if( $isCli ) {
+			
 			$router = new cliRoute();
 		} else {
 			$router = new webRoute();
