@@ -2,7 +2,7 @@
 **一个简单的MVC框架,代码逻辑很简单,主要是回顾下MVC的思想逻辑.简单说一下需要注意的点** 
 
 
-###目录结构
+### 目录结构
 >Public
 >>project_name
 >>>index.php  入口文件
@@ -29,7 +29,7 @@
 >Views    视图
 
 
-###入口文件
+### 入口文件
 
 ```php
 define('PUBLIC_PATH',__DIR__);      //当前项目入口路径
@@ -43,7 +43,7 @@ require_once  '../../setting.php';  //常量定义,其他设置
 new System\Core\Bootstrap();
 
 ```
-###重写规则
+### 重写规则
 ```bash
 server {
   listen ****;
@@ -57,7 +57,7 @@ server {
 
 ```
 
-###配置文件
+### 配置文件
 >Demo.inc.php 为数组形式做配置文件,命名方式:项目名.inc.php
 
 >Database.inc.php 数据库配置文件为共用
@@ -67,7 +67,7 @@ server {
 ```php
 Y::get($name)  //$name为空返回整个配置数组,不为空返回对应key的值
 ```
-###URI
+### URI
 支持两种url格式
 - base_uri/key1/val1/key2/val2(这种形式参数获取必须用下面将要说到的形式R::get('key1'),$_GET是获取不到的)
 - base_uri?key1=val1&key2/val2($_POST或者R::post('key1'))
@@ -75,8 +75,8 @@ Y::get($name)  //$name为空返回整个配置数组,不为空返回对应key的
 
 >参数的获取最好还是采用R::get(),R::post形式,这种方式会对你定义的参数类型进行验证,严谨些好
 
-###控制器
-####GET,POST参数获取
+### 控制器
+#### GET,POST参数获取
 ```php
 <?php
 use System\Common\Functions as Y;
@@ -122,7 +122,7 @@ class Rule {
 }
 ```
 具体使用方法可以参考这个类库的说明[Respect](https://github.com/Respect/Validation)
-####Model调用
+#### Model调用
 Model定义和普通类没有区别,类名+Model
 ```php
 <?php
@@ -135,7 +135,7 @@ class UserModel {
 }
 
 ```
-####数据库连接
+#### 数据库连接
 1.首先在Config/Database.inc.php中定义mysql连接配置,格式 '类型(pdo|mysqli|mysql等)'+'实例名'
 ```php
 <?php
@@ -179,7 +179,7 @@ class UserModel {
 
 ```
 
-###视图文件
+### 视图文件
 视图结构
 >Views
 >>project_name
@@ -203,9 +203,9 @@ $this->display(VIEW.'Index/Public/Footer.php');//包含公共尾
 ?>
 ```
 
-###运行
+### 运行
 
-###Tips
+### Tips
 		
 
 
